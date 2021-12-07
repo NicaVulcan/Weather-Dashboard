@@ -1,0 +1,74 @@
+/* general styles */
+.card {
+    border: none;
+}
+.card-header {
+    margin-bottom: 0;
+}
+.card-body {
+    padding-bottom: 20px;
+}
+.form-input {
+    margin: 0 auto 15px;
+}
+ul {
+    margin-top: 0;
+}
+ul li{
+    list-style-type: none;
+}
+
+/* search form style */
+#search-form {
+    margin: 0;
+}
+.form-input,
+.btn {
+    margin: 0;
+}
+
+/* search history style */
+#previous-searches {
+    margin: 0;
+}
+#previous-searches li {
+    background-color: #5755D9;
+    border: .05rem solid #5755d9;
+    border-radius: 0.1rem;
+    padding: 10px 10px;
+    margin: 5px, 0;
+    color: white;
+}
+#previous-searches li:hover {
+    background: #4240d4;
+    border-color: #3634d2;
+    color: #fff;
+}
+
+/* weather display style */
+#weather-display {
+    padding-right: 5px;
+}
+#forecast-today h2 {
+    margin: 15px;
+}
+#forecast-five-day h2 {
+    margin: 15px;
+}
+#forecast-five-day div div {
+    justify-content: space-around;
+}
+#forecast-five-day .card {
+    border: 2px gray solid;
+}
+
+@media (max-width: 840px) {
+    #previous-searches li {
+        width: 32%;
+    }
+}
+@media (max-width: 480px) {
+    #previous-searches li {
+        width: 100%;
+    }
+}
