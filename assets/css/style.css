@@ -46,29 +46,14 @@ ul li{
 }
 
 /* weather display style */
-#weather-display {
-    padding-right: 5px;
-}
-#forecast-today h2 {
-    margin: 15px;
-}
-#forecast-five-day h2 {
-    margin: 15px;
-}
-#forecast-five-day div div {
-    justify-content: space-around;
-}
-#forecast-five-day .card {
-    border: 2px gray solid;
-}
 
-@media (max-width: 840px) {
-    #previous-searches li {
-        width: 32%;
-    }
+/* UV color codes */
+.favorable{
+    color: rgb(35, 219, 35);
 }
-@media (max-width: 480px) {
-    #previous-searches li {
-        width: 100%;
-    }
+.moderate{
+    color: rgb(241, 228, 46);
+}
+.severe{
+    color: rgb(209, 131, 29);
 }

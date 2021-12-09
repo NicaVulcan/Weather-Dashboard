@@ -21,12 +21,12 @@ var getCity = function (cityName) {
 };
 
 // Get weather information
-var getWeather = function(cityLat, cityLon) {
+var getWeather = function (cityLat, cityLon) {
     var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + cityLat + "&lon=" + cityLon + "&exclude=minutely,hourly,alerts&appid=c530b07ee7450bd5ee531ce916c11440&units=imperial";
 
     fetch(apiUrl)
-        .then(function(response) {
-            response.json().then(function(data) {
+        .then(function (response) {
+            response.json().then(function (data) {
                 // Pass weather information on to displayToday() and displayForecast()
                 displayToday(data);
 
@@ -46,8 +46,8 @@ var displayCityName = function (city, country) {
 var displayToday = function (data) {
     // Variables
     var icon = data.current.weather[0].icon;
-    var temp =  data.current.temp; 
-    var wind = data.current.wind_speed; 
+    var temp = data.current.temp;
+    var wind = data.current.wind_speed;
     var humid = data.current.humidity;
     var uvi = data.current.uvi;
 
@@ -58,16 +58,23 @@ var displayToday = function (data) {
     $("<p>").text("Temp: " + temp + "F°").appendTo(todayForecast);
     $("<p>").text("Wind: " + wind + "MPH").appendTo(todayForecast);
     $("<p>").text("Humidity: " + humid + "%").appendTo(todayForecast);
-    $("<p>").text("UV Index: " + uvi).appendTo(todayForecast);
+    if (uvi <= 2) {
+        $("<p>").text("UV Index: " + uvi).appendTo(todayForecast).addClass("favorable");
+    } else if (uvi >2 && uvi <=5) {
+        $("<p>").text("UV Index: " + uvi).appendTo(todayForecast).addClass("moderate");
+    } else {
+        $("<p>").text("UV Index: " + uvi).appendTo(todayForecast).addClass("severe");
+    }
 };
 
 // Display weather details and icon for 5 day forecast
 var displayForecast = function (data) {
+    console.log(data);
     // Dynamically appear heading
     $("<h2>").text("Five Day Forecast:").appendTo(fiveDayForecast).addClass("text-center");
 
     // Display weathe details for each of 5 following days
-    var fiveDaysEl = $("<div>").appendTo(fiveDayForecast).attr("id","five-day");
+    var fiveDaysEl = $("<div>").appendTo(fiveDayForecast).attr("id", "five-day");
 
     for (var i = 0; i < 5; i++) {
         // Variables
@@ -77,7 +84,6 @@ var displayForecast = function (data) {
         var tempMin = data.daily[i].temp.min;
         var wind = data.daily[i].wind_speed;
         var humid = data.daily[i].humidity;
-        var uvi = data.daily[i].uvi;
 
         // Display date
         var forecastDate = moment().add(i + 1, "days").format("ddd, MMM Do");
@@ -90,19 +96,8 @@ var displayForecast = function (data) {
         $("<p>").text("Low Temp: " + tempMin + "F°").appendTo(forecastDayEl);
         $("<p>").text("Wind: " + wind + "MPH").appendTo(forecastDayEl);
         $("<p>").text("Humidity: " + humid + "%").appendTo(forecastDayEl);
-        $("<p>").text("UV Index: " + uvi).appendTo(forecastDayEl);
     }
 };
 
-// Display weather details for current day and 5-day forecast
-// var displayWeather = function (weatherData) {
-
-//     var i = 0;
-//     console.log("tempmax, tempmin: " + data.daily[i].temp.max, data.daily[i].temp.min);
-//     console.log("wind: " + data.daily[i].wind_speed);
-//     console.log("humidity: " + data.daily[i].humidity);
-//     console.log("uv: " + data.daily[i].uvi);
-//     console.log("icon: " + data.daily[i].weather[0].icon);
-// }
-var citySearchTerm = "madrid"
+var citySearchTerm = "sydney"
 getCity(citySearchTerm);
