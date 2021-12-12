@@ -1,6 +1,36 @@
+// Global variables
 var todayForecast = $("#forecast-today");
 var fiveDayForecast = $("#forecast-five-day");
-var i;
+var previousSearchesEl = $("#previous-searches");
+var previousSearches = [];
+
+// Get city from search form
+$("#search-button").click(function (event) {
+    event.preventDefault();
+
+    var citySearchTerm = $("#city-search").val().trim();
+
+    getCity(citySearchTerm);
+
+    // Add link to search history
+    $("<li>").text(citySearchTerm).appendTo($("#previous-searches")).addClass("search-item");
+
+    // Set search to local storage
+    var searchObj = {
+        city: citySearchTerm
+    };
+    previousSearches = JSON.parse(localStorage.getItem("searches")) || [];
+    previousSearches.push(searchObj);
+    localStorage.setItem("searches", JSON.stringify(previousSearches));
+    var citySearchTerm = $("#city-search").val("");
+});
+
+// Populate forecast from search history
+$("#previous-searches").click(function(event) {
+    var clickedSearchTerm = event.target;
+    var citySearchTerm = clickedSearchTerm.textContent;
+    getCity(citySearchTerm);
+});
 
 // Get city information
 var getCity = function (cityName) {
@@ -37,9 +67,10 @@ var getWeather = function (cityLat, cityLon) {
 
 // Display the name of the city and country, and date
 var displayCityName = function (city, country) {
+    //
     var today = moment().format("dddd, MMMM Do YYYY");
-    $("<h2>").text(city + ", " + country).appendTo(todayForecast).addClass("text-center");
-    $("<h3>").text(today).appendTo(todayForecast).addClass("text-center");
+    $("#city-details").text(city + ", " + country);
+    $("#today-date").text(today);
 };
 
 // Display weather details and icon for current day
@@ -52,33 +83,29 @@ var displayToday = function (data) {
     var uvi = data.current.uvi;
 
     // Weather icon
-    $("<img>").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png").appendTo(todayForecast);
+    $("#today-icon").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png").attr("alt","weather icon");
 
     // Weather details
-    $("<p>").text("Temp: " + temp + "F°").appendTo(todayForecast);
-    $("<p>").text("Wind: " + wind + "MPH").appendTo(todayForecast);
-    $("<p>").text("Humidity: " + humid + "%").appendTo(todayForecast);
+    $("#today-temp").text("Temp: " + temp + "F°");
+    $("#today-wind").text("Wind: " + wind + "MPH");
+    $("#today-humid").text("Humidity: " + humid + "%");
     if (uvi <= 2) {
-        $("<p>").text("UV Index: " + uvi).appendTo(todayForecast).addClass("favorable");
-    } else if (uvi >2 && uvi <=5) {
-        $("<p>").text("UV Index: " + uvi).appendTo(todayForecast).addClass("moderate");
+        $("#today-uvi").text("UV Index: " + uvi).addClass("favorable");
+    } else if (uvi > 2 && uvi <= 5) {
+        $("#today-uvi").text("UV Index: " + uvi).addClass("moderate");
     } else {
-        $("<p>").text("UV Index: " + uvi).appendTo(todayForecast).addClass("severe");
+        $("#today-uvi").text("UV Index: " + uvi).addClass("severe");
     }
 };
 
 // Display weather details and icon for 5 day forecast
 var displayForecast = function (data) {
-    console.log(data);
     // Dynamically appear heading
-    $("<h2>").text("Five Day Forecast:").appendTo(fiveDayForecast).addClass("text-center");
+    $("#forecast-five-day").css("display", "block");
 
-    // Display weathe details for each of 5 following days
-    var fiveDaysEl = $("<div>").appendTo(fiveDayForecast).attr("id", "five-day");
-
+    // Display weather details for each of 5 following days
     for (var i = 0; i < 5; i++) {
         // Variables
-        var forecastDayEl = $("<div>").appendTo(fiveDaysEl);
         var icon = data.daily[i].weather[0].icon;
         var tempMax = data.daily[i].temp.max;
         var tempMin = data.daily[i].temp.min;
@@ -87,17 +114,26 @@ var displayForecast = function (data) {
 
         // Display date
         var forecastDate = moment().add(i + 1, "days").format("ddd, MMM Do");
-        $("<h5>").text(forecastDate).appendTo(forecastDayEl);
+        $("#forecast-index-"+i).children(".forecast-date").text(forecastDate);
 
         //Display weather details
-        $("<img>").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png").appendTo(forecastDayEl);
-        console.log(forecastDate);
-        $("<p>").text("High Temp: " + tempMax + "F°").appendTo(forecastDayEl);
-        $("<p>").text("Low Temp: " + tempMin + "F°").appendTo(forecastDayEl);
-        $("<p>").text("Wind: " + wind + "MPH").appendTo(forecastDayEl);
-        $("<p>").text("Humidity: " + humid + "%").appendTo(forecastDayEl);
+        $("#forecast-index-"+i).children(".forecast-icon").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
+        $("#forecast-index-"+i).children(".forecast-high").text("High Temp: " + tempMax + "F°");
+        $("#forecast-index-"+i).children(".forecast-low").text("Low Temp: " + tempMin + "F°");
+        $("#forecast-index-"+i).children(".forecast-wind").text("Wind: " + wind + "MPH");
+        $("#forecast-index-"+i).children(".forecast-humid").text("Humidity: " + humid + "%");
     }
 };
 
-var citySearchTerm = "sydney"
-getCity(citySearchTerm);
+// Display previous searches from local storage
+var loadSearches = function () {
+    var loadPreviousSearches = JSON.parse(localStorage.getItem("searches")) || [];
+    for (var i = 0; i < loadPreviousSearches.length ; i++) {
+        $("<li>").text(loadPreviousSearches[i].city).appendTo($("#previous-searches")).addClass("search-item");
+    }
+
+};
+
+loadSearches();
+
+

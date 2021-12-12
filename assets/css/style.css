@@ -57,3 +57,7 @@ ul li{
 .severe{
     color: rgb(209, 131, 29);
 }
+
+#forecast-five-day {
+    display: none;
+}
