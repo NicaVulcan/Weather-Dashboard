@@ -89,12 +89,12 @@ var displayToday = function (data) {
     $("#today-temp").text("Temp: " + temp + "F°");
     $("#today-wind").text("Wind: " + wind + "MPH");
     $("#today-humid").text("Humidity: " + humid + "%");
-    if (uvi <= 2) {
-        $("#today-uvi").text("UV Index: " + uvi).addClass("favorable");
-    } else if (uvi > 2 && uvi <= 5) {
-        $("#today-uvi").text("UV Index: " + uvi).addClass("moderate");
+    if (uvi < 2) {
+        $("#today-uvi").text("UV Index: " + uvi).removeClass().addClass("favorable");
+    } else if (uvi < 5) {
+        $("#today-uvi").text("UV Index: " + uvi).removeClass().addClass("moderate");
     } else {
-        $("#today-uvi").text("UV Index: " + uvi).addClass("severe");
+        $("#today-uvi").text("UV Index: " + uvi).removeClass().addClass("severe");
     }
 };
 
