@@ -9,7 +9,7 @@ A web application that allows user to search for a city, and displays a 5 day we
 - jQuery
 - Open Weather One Call API
 ## Website
-(URL coming soon)
-![image coming soon]()
+https://nicavulcan.github.io/weather-dashboard/
+![weather dashboard application](assets/images/weather-dashboard.png)
 ## Contribution
 Created by CSM

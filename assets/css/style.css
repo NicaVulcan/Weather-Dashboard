@@ -2,21 +2,6 @@
 .card {
     border: none;
 }
-.card-header {
-    margin-bottom: 0;
-}
-.card-body {
-    padding-bottom: 20px;
-}
-.form-input {
-    margin: 0 auto 15px;
-}
-ul {
-    margin-top: 0;
-}
-ul li{
-    list-style-type: none;
-}
 
 /* search form style */
 #search-form {
@@ -24,19 +9,24 @@ ul li{
 }
 .form-input,
 .btn {
-    margin: 0;
+    margin: 0 auto 15px;
 }
 
 /* search history style */
 #previous-searches {
     margin: 0;
+    text-align: center;
+    flex-wrap: wrap;
+    justify-content: center;
 }
+
 #previous-searches li {
+    list-style-type: none;
     background-color: #5755D9;
     border: .05rem solid #5755d9;
     border-radius: 0.1rem;
     padding: 10px 10px;
-    margin: 5px, 0;
+    margin: 5px;
     color: white;
 }
 #previous-searches li:hover {
@@ -46,6 +36,16 @@ ul li{
 }
 
 /* weather display style */
+#forecast-five-day {
+    display: none;
+}
+#forecast-div {
+    display: flex;
+    flex-direction: column;
+}
+div[id^="forecast-index"] {
+    padding: 15px 15px 0;
+  }
 
 /* UV color codes */
 .favorable{
@@ -57,7 +57,19 @@ ul li{
 .severe{
     color: rgb(209, 131, 29);
 }
-
-#forecast-five-day {
-    display: none;
+/* Media queries */
+@media screen and (min-width: 480px) {
+    #forecast-div {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    div[id^="forecast-index"] {
+        width: 30%;
+    }
+}
+@media screen and (min-width: 700px) {
+    div[id^="forecast-index"] {
+        width: 20%;
+    }
 }

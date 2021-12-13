@@ -113,8 +113,13 @@ var displayForecast = function (data) {
         var humid = data.daily[i].humidity;
 
         // Display date
+        var styles = {
+            backgroundColor : "#4240d4",
+            color: "white",
+            borderRadius: "0.1rem"
+        }
         var forecastDate = moment().add(i + 1, "days").format("ddd, MMM Do");
-        $("#forecast-index-"+i).children(".forecast-date").text(forecastDate);
+        $("#forecast-index-"+i).children(".forecast-date").text(forecastDate).css(styles);
 
         //Display weather details
         $("#forecast-index-"+i).children(".forecast-icon").attr("src", "http://openweathermap.org/img/wn/" + icon + "@2x.png");
